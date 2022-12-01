@@ -3,13 +3,8 @@
     "target": "esnext",
     "module": "esnext",
     "strict": true,
-    "baseUrl": ".",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "useDefineForClassFields": true,
-    "isolatedModules": true,
-    "skipLibCheck": true,
-    "jsx": "preserve",
     "resolveJsonModule": true,
     "sourceMap": true,
     "lib": [

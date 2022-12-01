@@ -12,7 +12,7 @@ module.exports = {
     ecmaVersion: 2021,
     warnOnUnsupportedTypeScriptVersion: false,
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort', 'prettier'],
+  plugins: ['@typescript-eslint', 'prettier'],
   root: true,
   rules: {
     'prettier/prettier': 'error',
