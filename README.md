@@ -2,12 +2,12 @@
 > Challenges from https://adventofcode.com/2022/
 
 Install dependencies
-```
+```sh
 yarn 
 ```
 
 Run puzzle from data
-```bash
-// december 1st
+```sh
+# december 1st
 yarn 1
 ```
