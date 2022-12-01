@@ -1,9 +1,16 @@
 import chalk from 'chalk';
 import fs from 'fs';
 import { cloneDeep } from 'lodash';
+
 interface Collection {
   sum: number;
   allNumbers: number[];
+}
+
+class DumDumError extends Error {
+  constructor(message: string) {
+    super(`${message}🙃`);
+  }
 }
 
 fs.readFile(__dirname + '/data.txt', (err, data) => {
@@ -39,7 +46,11 @@ fs.readFile(__dirname + '/data.txt', (err, data) => {
         chalk.bgBlueBright.underline(`\nTop three sum: ${topThreeSum}\n`)
       );
     } catch (error) {
-      console.error(chalk.bgRedBright(error));
+      if (error instanceof DumDumError) {
+        console.error(chalk.bgMagentaBright(error));
+      } else {
+        console.error(chalk.bgRedBright(error));
+      }
       process.exit(1);
     }
 
@@ -65,7 +76,9 @@ Printing all sums, highlighting largest number
   // Print all values, highlight the largest value
   collections.forEach((collection, index) => {
     if (collection.sum > largest) {
-      throw new Error('\nWut, this value is higher than the largest value.\n');
+      throw new DumDumError(
+        '\nWut, this value is higher than the largest value\n'
+      );
     }
 
     // highlight largest sum
@@ -85,9 +98,6 @@ Printing all sums, highlighting largest number
       );
     }
   });
-
-  // Print result (largest)
-  // console.log(chalk.bgGreen.underline(`\nLargest number: ${largest}\n`));
 
   return largest;
 };
