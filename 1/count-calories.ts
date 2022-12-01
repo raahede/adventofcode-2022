@@ -72,14 +72,14 @@ Printing all sums, highlighting largest number
     if (collection.sum === largest) {
       console.log(
         chalk.bgGreen(
-          `${index}) Sum: ${collection.sum} - ${JSON.stringify(
+          `${index + 1}) Sum: ${collection.sum} - ${JSON.stringify(
             collection.allNumbers
           )}`
         )
       );
     } else {
       console.log(
-        `${index}) Sum: ${collection.sum} - ${JSON.stringify(
+        `${index + 1}) Sum: ${collection.sum} - ${JSON.stringify(
           collection.allNumbers
         )}`
       );
@@ -94,6 +94,7 @@ Printing all sums, highlighting largest number
 
 const getTopThreeSum = (collections: Collection[]) => {
   // Sort all collections with highest sum at the top
+  // cloning data to not affect the original array
   const sortedCollections = cloneDeep(collections).sort(
     (a, b) => b.sum - a.sum
   );
@@ -112,14 +113,14 @@ Printing ordered collections, highlighting top 3
     if (index < 3) {
       console.log(
         chalk.bgGreen(
-          `${index}) Sum: ${collection.sum} - ${JSON.stringify(
+          `${index + 1}) Sum: ${collection.sum} - ${JSON.stringify(
             collection.allNumbers
           )}`
         )
       );
     } else {
       console.log(
-        `${index}) Sum: ${collection.sum} - ${JSON.stringify(
+        `${index + 1}) Sum: ${collection.sum} - ${JSON.stringify(
           collection.allNumbers
         )}`
       );
