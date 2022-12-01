@@ -6,7 +6,7 @@ Install dependencies
 yarn 
 ```
 
-Run puzzle from data
+Run puzzle from date
 ```sh
 # december 1st
 yarn 1
