@@ -45,8 +45,6 @@ fs.readFile(__dirname + '/data.txt', (err, data) => {
 
     process.exit(0);
   }
-
-  return data;
 });
 
 const getHighestSum = (collections: Collection[]): number => {
