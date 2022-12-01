@@ -7,14 +7,12 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "1": "tsx -r ./1/count-calories"
+    "1": "tsx ./1/count-calories"
   },
   "dependencies": {
     "chalk": "^5.1.2",
     "fs": "^0.0.1-security",
-    "lodash": "^4.17.21",
-    "tsx": "^3.12.1",
-    "typescript": "^4.9.3"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.191",
@@ -25,6 +23,8 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-simple-import-sort": "^8.0.0",
-    "prettier": "^2.8.0"
+    "prettier": "^2.8.0",
+    "tsx": "^3.12.1",
+    "typescript": "^4.9.3"
   }
 }
