@@ -29,11 +29,9 @@ fs.readFile(__dirname + '/data.txt', (err, data) => {
 
     try {
       const total = getAccumulatedFixedGameResults(games);
-      console.log('getAccumulatedFixedGameResults');
 
       // Print result
       console.log(chalk.bgBlueBright.underline(`\nTotal score: ${total}\n`));
-      console.log('fixed games!');
     } catch (error) {
       console.error(chalk.bgRed(error));
       process.exit(1);
