@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "1": "tsx ./1/count-calories",
-    "2": "tsx ./2/calculate-score"
+    "2a": "tsx ./2/calculate-score-a",
+    "2b": "tsx ./2/calculate-score-b"
   },
   "dependencies": {
     "chalk": "^5.1.2",
