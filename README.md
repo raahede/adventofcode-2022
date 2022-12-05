@@ -11,3 +11,13 @@ Run puzzle from date
 # december 3rd, part a
 npx tsx 3/a
 ```
+
+Run unit tests
+```sh
+# december 3rd
+yarn test 3
+
+# watch mapRucksackData tests from 3/
+yarn test --watch --verbose=false 3 -t mapRucksackData
+```
+
