@@ -11,10 +11,9 @@
       "esnext",
       "dom"
     ],
-    "types": ["node"]
+    "types": ["node", "lodash", "jest"],
   },
   "include": [
     "**/*.ts",
-  ],
-  "exclude": []
+  ]
 }
