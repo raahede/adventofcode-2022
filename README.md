@@ -8,6 +8,6 @@ yarn
 
 Run puzzle from date
 ```sh
-# december 1st
-yarn 1
+# december 3rd, part a
+npx tsx 3/a
 ```
