@@ -5,6 +5,8 @@ export interface Rucksack {
   sharedItem: string;
 }
 
+export type Group = [string[], string[], string[]];
+
 export const itemTypes = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 export const itemPriority = (itemType: string) => {
@@ -47,6 +49,50 @@ export const mapRucksackData = (data: string): Rucksack[] => {
         sharedItem,
       };
     });
+};
+
+export const mapGroupData = (data: string): Group[] => {
+  const groups: Group[] = [];
+
+  const rucksacks = data
+    .split('\n') // split on newline
+    .filter((str) => !!str)
+    .map((rucksackTxt) => Array.from(rucksackTxt)); // remove empty
+
+  if (rucksacks.length % 3 !== 0)
+    throw new Error('Number of lines must be divisible by 3');
+
+  rucksacks.forEach((rucksack) => {
+    if (!groups.length || groups[groups.length - 1].length === 3) {
+      const group = [rucksack] as unknown as Group;
+      groups.push(group);
+    } else {
+      groups[groups.length - 1].push(rucksack);
+    }
+  });
+
+  if (groups.length !== rucksacks.length / 3)
+    throw new Error('Grouped rucksacks do not fit number of rucksacks');
+
+  return groups;
+};
+
+export const getGroupBadge = (group: Group): string => {
+  const commonLetters = intersection(...group);
+
+  if (commonLetters.length !== 1)
+    throw new Error('There should always be one badge in a group');
+
+  return commonLetters[0];
+};
+
+export const getBadgePrioritySum = (groups: Group[]): number => {
+  return groups
+    .map((group) => getGroupBadge(group))
+    .reduce(
+      (accumulator, currentValue) => accumulator + itemPriority(currentValue),
+      0
+    );
 };
 
 export const getPrioritySum = (rucksacks: Rucksack[]): number => {
