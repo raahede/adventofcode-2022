@@ -3,7 +3,7 @@ export interface Rucksack {
   sharedItem?: string;
 }
 
-export const itemTypes = 'abcdefghijklmnopqrstuvwxyxABCDEFGHIJKLMNOPQRSTUVWXYX';
+export const itemTypes = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 export const itemPriority = (itemType: string) => {
   const index = itemTypes.indexOf(itemType);
