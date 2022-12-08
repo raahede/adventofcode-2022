@@ -49,10 +49,24 @@ export const pairsCompletelyOverlap = (pair: Pair): boolean => {
   return overlap.length === a.length || overlap.length === b.length;
 };
 
-export const countTotalOverlaps = (pairs: Pair[]): number => {
+export const pairsPartiallyOverlap = (pair: Pair): boolean => {
+  const [a, b] = pair;
+  const overlap = intersection(a, b);
+  return !!overlap.length;
+};
+
+export const countCompleteOverlaps = (pairs: Pair[]): number => {
   return pairs.reduce(
     (accumulator, currentValue) =>
       accumulator + (pairsCompletelyOverlap(currentValue) ? 1 : 0),
+    0
+  );
+};
+
+export const countPartialOverlaps = (pairs: Pair[]): number => {
+  return pairs.reduce(
+    (accumulator, currentValue) =>
+      accumulator + (pairsPartiallyOverlap(currentValue) ? 1 : 0),
     0
   );
 };

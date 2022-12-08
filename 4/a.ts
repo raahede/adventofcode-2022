@@ -1,6 +1,10 @@
 import chalk from 'chalk';
 import fs from 'fs';
-import { countTotalOverlaps, mapPairsData } from './shared';
+import {
+  countCompleteOverlaps,
+  countPartialOverlaps,
+  mapPairsData,
+} from './shared';
 
 fs.readFile(__dirname + '/data.txt', (err, data) => {
   if (err) {
@@ -12,10 +16,19 @@ fs.readFile(__dirname + '/data.txt', (err, data) => {
     try {
       const pairs = mapPairsData(data.toString());
 
-      const total = countTotalOverlaps(pairs);
+      const completeOverlaps = countCompleteOverlaps(pairs);
+      const partialOverlaps = countPartialOverlaps(pairs);
 
       // Print result
-      console.log(chalk.bgBlueBright.underline(`\nTotal score: ${total}\n`));
+      console.log(
+        chalk.bgBlueBright.underline(
+          `\nComplete overlaps: ${completeOverlaps}\n`
+        )
+      );
+
+      console.log(
+        chalk.bgBlueBright.underline(`\nPartial overlaps: ${partialOverlaps}\n`)
+      );
     } catch (error) {
       console.error(chalk.bgRed(error));
       process.exit(1);

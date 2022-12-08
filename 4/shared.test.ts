@@ -1,9 +1,11 @@
 import {
-  countTotalOverlaps,
+  countCompleteOverlaps,
+  countPartialOverlaps,
   getNumberArrayFromStringRange,
   mapPairData,
   Pair,
   pairsCompletelyOverlap,
+  pairsPartiallyOverlap,
 } from './shared';
 
 describe('getNumberArrayFromStringRange', () => {
@@ -71,7 +73,32 @@ describe('pairsCompletelyOverlap', () => {
   });
 });
 
-describe('countTotalOverlaps', () => {
+describe('pairsPartiallyOverlap', () => {
+  it('gauges overlap correctly', () => {
+    expect(
+      pairsPartiallyOverlap([
+        [1, 2, 3, 4, 5],
+        [2, 3, 4],
+      ])
+    ).toBe(true);
+
+    expect(
+      pairsPartiallyOverlap([
+        [410, 411, 412, 413],
+        [409, 410, 411, 412],
+      ])
+    ).toBe(true);
+
+    expect(
+      pairsPartiallyOverlap([
+        [1, 2, 3, 4],
+        [5, 6, 7, 8],
+      ])
+    ).toBe(false);
+  });
+});
+
+describe('countCompleteOverlaps', () => {
   const pairs: Pair[] = [
     [
       [1, 2, 3, 4, 5],
@@ -88,6 +115,31 @@ describe('countTotalOverlaps', () => {
   ];
 
   it('counts overlap correctly', () => {
-    expect(countTotalOverlaps(pairs)).toBe(2);
+    expect(countCompleteOverlaps(pairs)).toBe(2);
+  });
+});
+
+describe('countPartialOverlaps', () => {
+  const pairs: Pair[] = [
+    [
+      [1, 2, 3, 4],
+      [5, 6, 7, 8],
+    ],
+    [
+      [1, 2, 3, 4, 5],
+      [2, 3, 4],
+    ],
+    [
+      [410, 411, 412],
+      [409, 410, 411, 412],
+    ],
+    [
+      [410, 411, 412, 413],
+      [409, 410, 411, 412],
+    ],
+  ];
+
+  it('counts overlap correctly', () => {
+    expect(countPartialOverlaps(pairs)).toBe(3);
   });
 });
