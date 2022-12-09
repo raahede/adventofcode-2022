@@ -1,10 +1,11 @@
 import {
+  doMove,
   getMovesFromData,
   getStacksFromData,
   mapPuzzleData,
   Move,
   PuzzleData,
-  StackId,
+  Stacks,
 } from './shared';
 
 // const stacksTxtFull = `
@@ -26,7 +27,7 @@ const stacksTxt = `
  1   2   3
 `;
 
-const expectedStacks: Map<StackId, string[]> = new Map([
+const expectedStacks: Stacks = new Map([
   [1, ['[A]', '[B]']],
   [2, ['[C]', '[D]', '[E]']],
   [3, ['[F]']],
@@ -90,5 +91,51 @@ describe('mapPuzzleData', () => {
   it('maps moves correctly to array', () => {
     const stacks = mapPuzzleData(puzzleText);
     expect(stacks).toEqual(expectedPuzzleData);
+  });
+});
+
+describe('doMove', () => {
+  const stacks: Stacks = new Map([
+    [1, ['[A]', '[B]']],
+    [2, ['[C]', '[D]', '[E]']],
+    [3, ['[F]']],
+  ]);
+
+  const move: Move = {
+    count: 1,
+    fromStack: 1,
+    toStack: 3,
+  };
+
+  const expectedStacks: Stacks = new Map([
+    [1, ['[A]']],
+    [2, ['[C]', '[D]', '[E]']],
+    [3, ['[F]', '[B]']],
+  ]);
+
+  it('moves one item correctly', () => {
+    expect(doMove(move, stacks)).toEqual(expectedStacks);
+  });
+
+  const stacks2: Stacks = new Map([
+    [1, ['[A]', '[B]']],
+    [2, ['[C]', '[D]', '[E]']],
+    [3, ['[F]']],
+  ]);
+
+  const move2: Move = {
+    count: 3,
+    fromStack: 2,
+    toStack: 1,
+  };
+
+  const expectedStacks2: Stacks = new Map([
+    [1, ['[A]', '[B]', '[E]', '[D]', '[C]']],
+    [2, []],
+    [3, ['[F]']],
+  ]);
+
+  it('moves multiple items correctly', () => {
+    expect(doMove(move2, stacks2)).toEqual(expectedStacks2);
   });
 });

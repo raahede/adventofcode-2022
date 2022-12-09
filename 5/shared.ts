@@ -1,15 +1,14 @@
-export const stacks = new Map<number, string[]>();
-
 export type StackId = number;
 
+export type Stacks = Map<number, string[]>;
 export interface PuzzleData {
-  stacks: Map<StackId, string[]>;
+  stacks: Stacks;
   moves: Move[];
 }
 
-export const getStacksFromData = (data: string): Map<StackId, string[]> => {
+export const getStacksFromData = (data: string): Stacks => {
   const stacks = <{ key: StackId; value: string[] }[]>[];
-  const stacksMap = new Map<StackId, string[]>();
+  const stacksMap: Stacks = new Map();
   const rows = data
     .split('\n') // split on newline
     .filter((str) => !!str) // remove empty
@@ -91,4 +90,20 @@ export const mapPuzzleData = (data: string): PuzzleData => {
     stacks: getStacksFromData(stacksTxts),
     moves: getMovesFromData(movesTxts),
   };
+};
+
+export const doMove = (move: Move, stacks: Stacks): Stacks => {
+  const fromStack = stacks.get(move.fromStack);
+  const toStack = stacks.get(move.toStack);
+  if (!fromStack)
+    throw new Error(`Stack with id ${move.fromStack} does not exist`);
+  if (!toStack) throw new Error(`Stack with id ${move.toStack} does not exist`);
+
+  for (let index = 0; index < move.count; index++) {
+    const moveItem = fromStack[fromStack.length - 1];
+    fromStack.pop();
+    toStack.push(moveItem);
+  }
+
+  return stacks;
 };
