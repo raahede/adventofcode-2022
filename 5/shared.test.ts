@@ -1,7 +1,9 @@
 import {
+  doAllMoves,
   doMove,
   getMovesFromData,
   getStacksFromData,
+  getTopLettersFromStacks,
   mapPuzzleData,
   Move,
   PuzzleData,
@@ -28,8 +30,8 @@ const stacksTxt = `
 `;
 
 const expectedStacks: Stacks = new Map([
-  [1, ['[A]', '[B]']],
-  [2, ['[C]', '[D]', '[E]']],
+  [1, ['[B]', '[A]']],
+  [2, ['[E]', '[D]', '[C]']],
   [3, ['[F]']],
 ]);
 
@@ -48,16 +50,19 @@ move 5 from 9 to 4
 
 const expectMoves: Move[] = [
   {
+    text: 'move 1 from 7 to 4',
     count: 1,
     fromStack: 7,
     toStack: 4,
   },
   {
+    text: 'move 1 from 6 to 2',
     count: 1,
     fromStack: 6,
     toStack: 2,
   },
   {
+    text: 'move 5 from 9 to 4',
     count: 5,
     fromStack: 9,
     toStack: 4,
@@ -102,6 +107,7 @@ describe('doMove', () => {
   ]);
 
   const move: Move = {
+    text: 'move 1 from 1 to 3',
     count: 1,
     fromStack: 1,
     toStack: 3,
@@ -124,6 +130,7 @@ describe('doMove', () => {
   ]);
 
   const move2: Move = {
+    text: 'move 3 from 2 to 1',
     count: 3,
     fromStack: 2,
     toStack: 1,
@@ -137,5 +144,51 @@ describe('doMove', () => {
 
   it('moves multiple items correctly', () => {
     expect(doMove(move2, stacks2)).toEqual(expectedStacks2);
+  });
+});
+
+describe('doAllMoves', () => {
+  const stacks: Stacks = new Map([
+    [1, ['[A]', '[B]']],
+    [2, ['[C]', '[D]', '[E]']],
+    [3, ['[F]']],
+  ]);
+
+  const moves: Move[] = [
+    {
+      text: 'move 3 from 2 to 1',
+      count: 3,
+      fromStack: 2,
+      toStack: 1,
+    },
+    {
+      text: 'move 2 from 1 to 3',
+      count: 2,
+      fromStack: 1,
+      toStack: 3,
+    },
+  ];
+
+  const expectedStacks: Stacks = new Map([
+    [1, ['[A]', '[B]', '[E]']],
+    [2, []],
+    [3, ['[F]', '[C]', '[D]']],
+  ]);
+
+  it('executes all moves correctly', () => {
+    expect(doAllMoves({ moves, stacks })).toEqual(expectedStacks);
+  });
+});
+
+describe('getTopLettersFromStacks', () => {
+  const stacks: Stacks = new Map([
+    [1, ['[A]', '[B]']],
+    [2, ['[C]', '[D]', '[E]']],
+    [3, []],
+    [4, ['[F]']],
+  ]);
+
+  it('gets all stack top letters', () => {
+    expect(getTopLettersFromStacks(stacks)).toEqual('BEF');
   });
 });

@@ -1,6 +1,13 @@
 export type StackId = number;
 
 export type Stacks = Map<number, string[]>;
+
+export interface Move {
+  text: string;
+  count: number;
+  fromStack: StackId;
+  toStack: StackId;
+}
 export interface PuzzleData {
   stacks: Stacks;
   moves: Move[];
@@ -28,7 +35,7 @@ export const getStacksFromData = (data: string): Stacks => {
     } else {
       row?.forEach((char, ii) => {
         const trimmed = char.trim();
-        if (trimmed.length) stacks[ii].value.unshift(trimmed); // add to beginning of array
+        if (trimmed.length) stacks[ii].value.push(trimmed); // add to beginning of array
       });
     }
   });
@@ -40,12 +47,6 @@ export const getStacksFromData = (data: string): Stacks => {
 
   return stacksMap;
 };
-
-export interface Move {
-  count: number;
-  fromStack: StackId;
-  toStack: StackId;
-}
 
 export const getMovesFromData = (data: string): Move[] => {
   const movesTxts = data
@@ -72,6 +73,7 @@ export const getMovesFromData = (data: string): Move[] => {
       throw new Error(`Could not parse "toStack" as number in "${moveTxt}"`);
 
     return {
+      text: moveTxt,
       count,
       fromStack,
       toStack,
@@ -106,4 +108,27 @@ export const doMove = (move: Move, stacks: Stacks): Stacks => {
   }
 
   return stacks;
+};
+
+export const doAllMoves = (data: PuzzleData): Stacks => {
+  const { moves, stacks } = data;
+  let currentStacks = new Map(stacks);
+
+  moves.forEach((move) => {
+    // console.log(`Executing move: ${move.text}`);
+    // console.log(currentStacks);
+    currentStacks = new Map(doMove(move, currentStacks));
+    // console.log(currentStacks);
+  });
+
+  return currentStacks;
+};
+
+export const getTopLettersFromStacks = (stacks: Stacks): string => {
+  const topLetters = Array.from(stacks.values())
+    .map((arr) => arr[arr.length - 1]?.replace(/\[|\]/g, '') || '') // remove "[" and "]"
+    .join('');
+
+  // console.log(`Top letters: ${topLetters}`);
+  return topLetters;
 };
