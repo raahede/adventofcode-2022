@@ -1,6 +1,10 @@
 import chalk from 'chalk';
 import fs from 'fs';
-import { doAllMoves, getTopLettersFromStacks, mapPuzzleData } from './shared';
+import {
+  doAllOrderedMoves,
+  getTopLettersFromStacks,
+  mapPuzzleData,
+} from './shared';
 
 fs.readFile(__dirname + '/data.txt', (err, data) => {
   if (err) {
@@ -12,7 +16,7 @@ fs.readFile(__dirname + '/data.txt', (err, data) => {
     try {
       const mappedData = mapPuzzleData(data.toString());
 
-      const finalStacks = doAllMoves(mappedData);
+      const finalStacks = doAllOrderedMoves(mappedData);
       const topLetters = getTopLettersFromStacks(finalStacks);
 
       // Print result

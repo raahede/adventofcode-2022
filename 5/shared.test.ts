@@ -1,6 +1,8 @@
 import {
   doAllMoves,
+  doAllOrderedMoves,
   doMove,
+  doOrderedMove,
   getMovesFromData,
   getStacksFromData,
   getTopLettersFromStacks,
@@ -147,6 +149,54 @@ describe('doMove', () => {
   });
 });
 
+describe('doOrderedMove', () => {
+  const stacks: Stacks = new Map([
+    [1, ['[A]', '[B]']],
+    [2, ['[C]', '[D]', '[E]']],
+    [3, ['[F]']],
+  ]);
+
+  const move: Move = {
+    text: 'move 1 from 1 to 3',
+    count: 1,
+    fromStack: 1,
+    toStack: 3,
+  };
+
+  const expectedStacks: Stacks = new Map([
+    [1, ['[A]']],
+    [2, ['[C]', '[D]', '[E]']],
+    [3, ['[F]', '[B]']],
+  ]);
+
+  it('moves one item correctly', () => {
+    expect(doOrderedMove(move, stacks)).toEqual(expectedStacks);
+  });
+
+  const stacks2: Stacks = new Map([
+    [1, ['[A]', '[B]']],
+    [2, ['[C]', '[D]', '[E]']],
+    [3, ['[F]']],
+  ]);
+
+  const move2: Move = {
+    text: 'move 3 from 2 to 1',
+    count: 3,
+    fromStack: 2,
+    toStack: 1,
+  };
+
+  const expectedStacks2: Stacks = new Map([
+    [1, ['[A]', '[B]', '[C]', '[D]', '[E]']],
+    [2, []],
+    [3, ['[F]']],
+  ]);
+
+  it('moves multiple items correctly', () => {
+    expect(doOrderedMove(move2, stacks2)).toEqual(expectedStacks2);
+  });
+});
+
 describe('doAllMoves', () => {
   const stacks: Stacks = new Map([
     [1, ['[A]', '[B]']],
@@ -177,6 +227,39 @@ describe('doAllMoves', () => {
 
   it('executes all moves correctly', () => {
     expect(doAllMoves({ moves, stacks })).toEqual(expectedStacks);
+  });
+});
+
+describe('doAllOrderedMoves', () => {
+  const stacks: Stacks = new Map([
+    [1, ['[A]', '[B]']],
+    [2, ['[C]', '[D]', '[E]']],
+    [3, ['[F]']],
+  ]);
+
+  const moves: Move[] = [
+    {
+      text: 'move 3 from 2 to 1',
+      count: 3,
+      fromStack: 2,
+      toStack: 1,
+    },
+    {
+      text: 'move 2 from 1 to 3',
+      count: 2,
+      fromStack: 1,
+      toStack: 3,
+    },
+  ];
+
+  const expectedStacks: Stacks = new Map([
+    [1, ['[A]', '[B]', '[C]']],
+    [2, []],
+    [3, ['[F]', '[D]', '[E]']],
+  ]);
+
+  it('executes all moves correctly', () => {
+    expect(doAllOrderedMoves({ moves, stacks })).toEqual(expectedStacks);
   });
 });
 

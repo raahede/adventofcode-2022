@@ -1,3 +1,5 @@
+import { takeRight } from 'lodash';
+
 export type StackId = number;
 
 export type Stacks = Map<number, string[]>;
@@ -110,15 +112,37 @@ export const doMove = (move: Move, stacks: Stacks): Stacks => {
   return stacks;
 };
 
+export const doOrderedMove = (move: Move, stacks: Stacks): Stacks => {
+  const fromStack = stacks.get(move.fromStack);
+  const toStack = stacks.get(move.toStack);
+  if (!fromStack)
+    throw new Error(`Stack with id ${move.fromStack} does not exist`);
+  if (!toStack) throw new Error(`Stack with id ${move.toStack} does not exist`);
+
+  const moveItems = takeRight(fromStack, move.count);
+  toStack.push(...moveItems);
+  fromStack.length = fromStack.length - move.count;
+
+  return stacks;
+};
+
 export const doAllMoves = (data: PuzzleData): Stacks => {
   const { moves, stacks } = data;
   let currentStacks = new Map(stacks);
 
   moves.forEach((move) => {
-    // console.log(`Executing move: ${move.text}`);
-    // console.log(currentStacks);
     currentStacks = new Map(doMove(move, currentStacks));
-    // console.log(currentStacks);
+  });
+
+  return currentStacks;
+};
+
+export const doAllOrderedMoves = (data: PuzzleData): Stacks => {
+  const { moves, stacks } = data;
+  let currentStacks = new Map(stacks);
+
+  moves.forEach((move) => {
+    currentStacks = new Map(doOrderedMove(move, currentStacks));
   });
 
   return currentStacks;
@@ -129,6 +153,5 @@ export const getTopLettersFromStacks = (stacks: Stacks): string => {
     .map((arr) => arr[arr.length - 1]?.replace(/\[|\]/g, '') || '') // remove "[" and "]"
     .join('');
 
-  // console.log(`Top letters: ${topLetters}`);
   return topLetters;
 };
