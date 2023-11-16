@@ -8,6 +8,7 @@
   "private": true,
   "scripts": {
     "test": "jest",
+    "demo": "tsx ./demo/index",
     "1": "tsx ./1/count-calories",
     "2a": "tsx ./2/calculate-score-a",
     "2b": "tsx ./2/calculate-score-b"
